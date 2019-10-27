@@ -7,17 +7,9 @@
 #include "table_ui.hpp"
 using namespace std;
 int main() {
-  int num_cols = 20, num_lines = 15;
-  Board t(num_cols, num_lines, 60);
-  auto cb = t.charBoard();
-  cout << cb.size() << " " << cb[0].size() << endl;
-  for (int i = 0; i < num_cols; i++) {
-    for (int j = 0; j < num_lines; j++) {
-      cout << cb[j][i] << " ";
-    }
-    cout << endl;
-  }
+  int num_cols = 15, num_lines = 15;
   float cell_size = 60.f, padding = 2.f, border = 50.f;
+  Board t(num_cols, num_lines, 60);
 
   sf::RenderWindow window(sf::VideoMode(cell_size * num_cols + 2 * border,
                                         cell_size * num_lines + 2 * border),
@@ -25,10 +17,13 @@ int main() {
   // window.setFramerateLimit(30);
   BoardUI board = BoardUI(num_cols, num_lines, cell_size, padding, border);
   while (window.isOpen()) {
+    auto cb = t.charBoard();
     auto mouse_pos = sf::Mouse::getPosition(window);
     auto cell_pos = board.getMouseCell(mouse_pos);
-
-    board.set_color(sf::Color::Red, cell_pos.x, cell_pos.y);
+    if (t.onBound(cell_pos.x, cell_pos.y) &&
+        cb[cell_pos.y][cell_pos.x] != ' ') {
+      board.set_color(sf::Color::Red, cell_pos.x, cell_pos.y);
+    }
     for (int i = 0; i < num_lines; i++) {
       for (int j = 0; j < num_cols; j++) {
         if (cb[i][j] == '*') {
@@ -37,8 +32,13 @@ int main() {
       }
     }
     auto b = board.get_board();
+    auto tb = board.setTextBoard(cb);
     window.clear();
     window.draw(b, 4 * num_lines * num_cols, sf::Quads);
+
+    for (int i = 0; i < num_lines * num_cols; ++i) {
+      window.draw(tb[i]);
+    }
     window.display();
 
     board.set_color(sf::Color::White, cell_pos.x, cell_pos.y);
