@@ -2,5 +2,5 @@
 g++ -c main.cpp
 g++ -c table_ui.cpp
 g++ -c Board.cpp
-g++ main.o table_ui.o -o mine-app -lsfml-graphics -lsfml-window -lsfml-system
+g++ main.o table_ui.o Board.o -o mine-app -lsfml-graphics -lsfml-window -lsfml-system
 ./mine-app

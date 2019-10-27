@@ -1,37 +1,45 @@
+#include "Board.h"
+#include <algorithm>
 #include <iostream>
 #include <vector>
 using namespace std;
-struct cell {
-  int neighbombs;
-  bool bomb;
-  bool Flag;
-};
-class Board {
- private:
-  vector<vector<cell>> table;
-  int x, y, bombs;
 
- public:
-  Board(int x_val = 10, int y_val = 10, int bombs_val = 10);
-  void Print_board();
-};
 ostream &operator<<(ostream &os, cell const &b) {
   char c = (b.bomb) ? '*' : 'o';
   return os << c;
 }
 Board::Board(int x_val, int y_val, int bombs_val)
     : x{x_val}, y{y_val}, bombs{bombs_val} {
-  table = vector<vector<cell>>(y_val);
+  table = vector<vector<cell>>();
   for (int i = 0; i < y_val; i++) {
-    table[i] = vector<cell>(x_val);
+    table.push_back(vector<cell>());
+    for (int j = 0; j < x_val; j++) {
+      cell c;
+      table[i].push_back(c);
+    }
   }
+  Add_bombs(bombs);
 }
 
-void Board::Print_board() {
+vector<vector<char>> Board::char_board() {
+  vector<vector<char>> b(y, vector<char>(x, '_'));
   for (int i = 0; i < y; i++) {
     for (int j = 0; j < x; j++) {
-      cout << table[i][j] << " ";
+      if (table[i][j].bomb) {
+        b[i][j] = '*';
+      }
     }
-    cout << endl;
+  }
+  return b;
+}
+
+void Board::Add_bombs(int n) {
+  vector<bool> v(n, true);
+  v.resize(y * x, false);
+  random_shuffle(v.begin(), v.end());
+  for (int i = 0; i < y; i++) {
+    for (int j = 0; j < x; j++) {
+      table[i][j].bomb = v[i * x + j];
+    }
   }
 }

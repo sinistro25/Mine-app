@@ -39,7 +39,6 @@ BoardUI::BoardUI(int x, int y, float size, float padding, float border) {
   }
 }
 void BoardUI::set_color(sf::Color color, int x, int y) {
-  std::cout << x << endl;
   if (x < 0 || x >= num_cols || y < 0 || y >= num_lines) {
     return;
   }
