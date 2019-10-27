@@ -9,7 +9,7 @@ using namespace std;
 int main() {
   int num_cols = 20, num_lines = 10;
   Board t(num_cols, num_lines, 100);
-  auto cb = t.char_board();
+  auto cb = t.charBoard();
 
   float cell_size = 60.f, padding = 2.f, border = 50.f;
 

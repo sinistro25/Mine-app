@@ -2,23 +2,19 @@
 #define BOARD_H_
 #include <vector>
 using namespace std;
-struct cell {
+struct Cell {
   int neighbombs;
   bool bomb;
-  bool Flag;
-  cell() {
-    neighbombs = 0;
-    bomb = false;
-    Flag = false;
-  }
+  bool flag;
 };
 class Board {
- public:
+ private:
   int x, y, bombs;
-  vector<vector<cell>> table;
-  void Add_bombs(int n);
+  vector<vector<Cell>> table;
+  void addBombs(int n);
 
+ public:
   Board(int x_val = 10, int y_val = 10, int bombs_val = 10);
-  vector<vector<char>> char_board();
+  vector<vector<char>> charBoard();
 };
 #endif
