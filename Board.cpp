@@ -19,6 +19,7 @@ Board::Board(int x_val, int y_val, int bombs_val)
     }
   }
   addBombs(bombs);
+  fillCell();
 }
 
 vector<vector<char>> Board::charBoard() {
@@ -27,6 +28,8 @@ vector<vector<char>> Board::charBoard() {
     for (int j = 0; j < x; j++) {
       if (table[i][j].bomb) {
         b[i][j] = '*';
+      } else {
+        b[i][j] = char('0' + table[i][j].neighbombs);
       }
     }
   }
@@ -40,6 +43,26 @@ void Board::addBombs(int n) {
   for (int i = 0; i < y; i++) {
     for (int j = 0; j < x; j++) {
       table[i][j].bomb = v[i * x + j];
+    }
+  }
+}
+
+bool Board::onBound(int x, int y) {
+  return !(x < 0 || x >= this->x || y < 0 || y >= this->y);
+}
+void Board::fillCell() {
+  for (int i = 0; i < y; i++) {
+    for (int j = 0; j < x; j++) {
+      for (int k = i - 1; k <= i + 1; k++) {
+        for (int p = j - 1; p <= j + 1; p++) {
+          if (!onBound(p, k) || (p == j && k == i)) {
+            continue;
+          }
+          if (table[k][p].bomb) {
+            table[i][j].neighbombs++;
+          }
+        }
+      }
     }
   }
 }

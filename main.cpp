@@ -10,7 +10,12 @@ int main() {
   int num_cols = 20, num_lines = 10;
   Board t(num_cols, num_lines, 100);
   auto cb = t.charBoard();
-
+  for (int i = 0; i < num_cols; i++) {
+    for (int j = 0; j < num_lines; j++) {
+      cout << cb[i][j] << " ";
+    }
+    cout << endl;
+  }
   float cell_size = 60.f, padding = 2.f, border = 50.f;
 
   sf::RenderWindow window(sf::VideoMode(cell_size * num_cols + 2 * border,
