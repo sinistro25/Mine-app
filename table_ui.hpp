@@ -6,6 +6,7 @@ class BoardUI {
   sf::VertexArray cells;
   BoardUI(int x, int y, float size, float padding = 2.f, float border = 50.f);
   void set_color(sf::Color color, int x, int y);
-  sf::VertexArray get_board();
+  sf::Vertex* get_board();
+  sf::Vector2i getMouseCell(sf::Vector2i& pos);
 };
 #endif
