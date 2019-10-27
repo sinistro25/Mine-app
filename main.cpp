@@ -16,14 +16,9 @@ int main() {
   sf::RenderWindow window(sf::VideoMode(cell_size * num_cols + 2 * border,
                                         cell_size * num_lines + 2 * border),
                           "Mine game!");
-  window.setFramerateLimit(30);
+  // window.setFramerateLimit(30);
   BoardUI board = BoardUI(num_cols, num_lines, cell_size, padding, border);
   while (window.isOpen()) {
-    sf::Event event;
-    while (window.pollEvent(event)) {
-      if (event.type == sf::Event::Closed) window.close();
-    }
-
     auto mouse_pos = sf::Mouse::getPosition(window);
     auto cell_pos = board.getMouseCell(mouse_pos);
 
@@ -41,6 +36,13 @@ int main() {
     window.display();
 
     board.set_color(sf::Color::White, cell_pos.x, cell_pos.y);
+
+    sf::Event event;
+    while (window.pollEvent(event)) {
+      if (event.type == sf::Event::Closed) {
+        window.close();
+      }
+    }
   }
 
   return 0;
