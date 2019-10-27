@@ -2,11 +2,9 @@
 #include <chrono>
 #include <iostream>
 #include <thread>
-#include <vector>
-#include "Board.h"
 #include "table_ui.hpp"
 int main() {
-  float cell_size = 60.f, padding = 2.f, border = 50.f;
+  float cell_size = 120.f, padding = 2.f, border = 50.f;
   int num_cols = 11, num_lines = 10;
 
   sf::RenderWindow window(sf::VideoMode(cell_size * num_cols + 2 * border,
