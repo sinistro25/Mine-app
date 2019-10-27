@@ -23,9 +23,10 @@ Board::Board(int x_val, int y_val, int bombs_val)
 }
 
 vector<vector<char>> Board::charBoard() {
-  vector<vector<char>> b(y, vector<char>(x, '_'));
+  vector<vector<char>> b(y, vector<char>(x, ' '));
   for (int i = 0; i < y; i++) {
     for (int j = 0; j < x; j++) {
+      // TODO(Paula): If cell is ridden don't change the char in b;
       if (table[i][j].bomb) {
         b[i][j] = '*';
       } else {
@@ -65,4 +66,15 @@ void Board::fillCell() {
       }
     }
   }
+}
+
+void Board::discoverCell(int x, int y) {
+  // TODO(Paula): this changes the state of the cell from hidden
+  // to explored. Must call bound verification and will trigger
+  // game over if discover a bomb or discover all hidden.
+
+  // TODO(Paula) - HARD leave for last: If you discover a cell with
+  // 0 neighbombs you have to open all neighbors cells with also 0
+  // neighbombs, there is a direct way to implement it. You might
+  // want to search for flood fill to get the idea.
 }
