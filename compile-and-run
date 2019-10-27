@@ -1,0 +1,5 @@
+#!/bin/bash
+g++ -c main.cpp
+g++ -c table_ui.cpp
+g++ main.o table_ui.o -o mine-app -lsfml-graphics -lsfml-window -lsfml-system
+./mine-app

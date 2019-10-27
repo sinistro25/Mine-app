@@ -1,12 +1,16 @@
 #include <SFML/Graphics.hpp>
-
+#include <iostream>
+#include "table_ui.hpp"
 int main() {
-  sf::RenderWindow window(sf::VideoMode(600, 600), "Mine game!");
-  sf::CircleShape circle(200.f, 30);
-  circle.setOrigin(200.f, 200.f);
-  circle.setPosition(300, 300);
-  circle.setFillColor(sf::Color::Green);
+  float cell_size = 60.f, padding = 2.f, border = 50.f;
+  int num_cols = 20, num_lines = 20;
 
+  sf::RenderWindow window(sf::VideoMode(cell_size * num_cols + 2 * border,
+                                        cell_size * num_lines + 2 * border),
+                          "Mine game!");
+  BoardUI board = BoardUI(num_lines, num_cols, cell_size, padding, border);
+  board.set_color(sf::Color::Red, 5, 3);
+  auto b = board.get_board();
   while (window.isOpen()) {
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -14,7 +18,7 @@ int main() {
     }
 
     window.clear();
-    window.draw(circle);
+    window.draw(b);
     window.display();
   }
 
