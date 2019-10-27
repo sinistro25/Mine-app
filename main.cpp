@@ -7,12 +7,13 @@
 #include "table_ui.hpp"
 using namespace std;
 int main() {
-  int num_cols = 20, num_lines = 10;
-  Board t(num_cols, num_lines, 100);
+  int num_cols = 20, num_lines = 15;
+  Board t(num_cols, num_lines, 60);
   auto cb = t.charBoard();
+  cout << cb.size() << " " << cb[0].size() << endl;
   for (int i = 0; i < num_cols; i++) {
     for (int j = 0; j < num_lines; j++) {
-      cout << cb[i][j] << " ";
+      cout << cb[j][i] << " ";
     }
     cout << endl;
   }
