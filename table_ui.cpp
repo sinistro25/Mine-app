@@ -1,43 +1,56 @@
 #include <SFML/Graphics.hpp>
+#include <cmath>
 #include <iostream>
 using namespace std;
 class BoardUI {
  private:
-  int size_x, size_y;
+  int num_cols, num_lines;
+  float size;
+  float border;
 
  public:
-  sf::VertexArray cells;
+  sf::Vertex* cells;
   BoardUI(int x, int y, float size, float padding = 2.f, float border = 50.f);
   void set_color(sf::Color color, int x, int y);
-  sf::VertexArray get_board();
+  sf::Vertex* get_board();
+  sf::Vector2i getMouseCell(sf::Vector2i& pos);
 };
 BoardUI::BoardUI(int x, int y, float size, float padding, float border) {
-  size_x = x;
-  size_y = y;
-  cells = sf::VertexArray(sf::Quads, 4 * x * y);
-  cout << cells.getVertexCount() << endl;
-  for (int i = 0; i < x; i++) {
-    for (int j = 0; j < y; j++) {
-      float top_y = size * i + padding + border;
-      float bottom_y = size * (i + 1) - padding + border;
-      float left_x = size * j + padding + border;
-      float right_x = size * (j + 1) - padding + border;
+  this->size = size;
+  this->border = border;
+  num_cols = x;
+  num_lines = y;
+  cells = new sf::Vertex[4 * x * y];
+  for (int i = 0; i < num_cols; i++) {
+    for (int j = 0; j < num_lines; j++) {
+      float top_y = size * j + padding + border;
+      float bottom_y = size * (j + 1) - padding + border;
+      float left_x = size * i + padding + border;
+      float right_x = size * (i + 1) - padding + border;
 
-      cells[4 * (i + x * j)].position = sf::Vector2f(left_x, top_y);
-      cells[4 * (i + x * j) + 1].position = sf::Vector2f(right_x, top_y);
-      cells[4 * (i + x * j) + 2].position = sf::Vector2f(right_x, bottom_y);
-      cells[4 * (i + x * j) + 3].position = sf::Vector2f(left_x, bottom_y);
+      cells[4 * (j + num_lines * i)] = sf::Vertex(sf::Vector2f(left_x, top_y));
+      cells[4 * (j + num_lines * i) + 1] =
+          sf::Vertex(sf::Vector2f(right_x, top_y));
+      cells[4 * (j + num_lines * i) + 2] =
+          sf::Vertex(sf::Vector2f(right_x, bottom_y));
+      cells[4 * (j + num_lines * i) + 3] =
+          sf::Vertex(sf::Vector2f(left_x, bottom_y));
     }
   }
 }
 void BoardUI::set_color(sf::Color color, int x, int y) {
-  cout << size_x << " " << size_y << endl;
-  cells[4 * (x + size_x * y)].color = color;
-  cells[4 * (x + size_x * y) + 1].color = color;
-  cells[4 * (x + size_x * y) + 2].color = color;
-  cells[4 * (x + size_x * y) + 3].color = color;
+  std::cout << x << endl;
+  if (x < 0 || x >= num_cols || y < 0 || y >= num_lines) {
+    return;
+  }
+  cells[4 * (y + num_lines * x)].color = color;
+  cells[4 * (y + num_lines * x) + 1].color = color;
+  cells[4 * (y + num_lines * x) + 2].color = color;
+  cells[4 * (y + num_lines * x) + 3].color = color;
 }
-sf::VertexArray BoardUI::get_board() {
-  cout << cells.getVertexCount() << endl;
-  return cells;
+sf::Vertex* BoardUI::get_board() { return cells; }
+sf::Vector2i BoardUI::getMouseCell(sf::Vector2i& pos) {
+  pos.x -= int(border);
+  pos.y -= int(border);
+  return sf::Vector2i(floor(float(pos.x) / size), floor(pos.y / size));
 }
