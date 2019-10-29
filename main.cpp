@@ -1,4 +1,4 @@
-//#include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include <chrono>
 #include <iostream>
 #include <thread>
@@ -6,18 +6,32 @@
 #include "board.hpp"
 #include "board_ui.hpp"
 using namespace std;
-int main() {
-  int num_cols = 30, num_lines = 18;
+int main(int argc, char** argv) {
+  int num_cols = 30, num_lines = 20, num_bombs = 10;
   float cell_size = 60.f, padding = 2.f, border = 50.f;
+  srand(time(NULL));
 
-  Board board(num_cols, num_lines, 60);
+  if (argc == 2) {
+    num_lines = num_cols = atoi(argv[1]);
+    num_bombs = num_lines * num_cols / 10 + 1;
+  } else if (argc == 3) {
+    num_lines = atoi(argv[1]);
+    num_cols = atoi(argv[2]);
+    num_bombs = num_lines * num_cols / 10 + 1;
+  } else if (argc > 3) {
+    num_lines = atoi(argv[1]);
+    num_cols = atoi(argv[2]);
+    num_bombs = atoi(argv[3]);
+  }
+
+  Board board(num_cols, num_lines, num_bombs);
   BoardUI boardUI = BoardUI(num_cols, num_lines, cell_size, padding, border);
 
   sf::RenderWindow window(sf::VideoMode(cell_size * num_cols + 2 * border,
                                         cell_size * num_lines + 2 * border),
                           "Mine game!");
 
-  window.setFramerateLimit(30);
+  window.setFramerateLimit(120);
   while (window.isOpen()) {
     auto cb = board.charBoard();
     auto mousePos = sf::Mouse::getPosition(window);
