@@ -47,6 +47,12 @@ int main() {
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) {
         window.close();
+      } else if (event.type == sf::Event::MouseButtonPressed) {
+        if (event.mouseButton.button == sf::Mouse::Left) {
+          t.discoverCell(cell_pos.x, cell_pos.y);
+        } else if (event.mouseButton.button == sf::Mouse::Right) {
+          t.flagCellToggle(cell_pos.x, cell_pos.y);
+        }
       }
     }
   }

@@ -69,6 +69,11 @@ void Board::fillCell() {
 }
 
 void Board::discoverCell(int x, int y) {
+  // MOCK Implementation for using the mouse click,
+  // remove when implementing the real function.
+  if (onBound(x, y)) {
+    table[y][x].bomb = true;
+  }
   // TODO(Paula): this changes the state of the cell from hidden
   // to explored. Must call bound verification and will trigger
   // game over if discover a bomb or discover all hidden.
@@ -77,4 +82,14 @@ void Board::discoverCell(int x, int y) {
   // 0 neighbombs you have to open all neighbors cells with also 0
   // neighbombs, there is a direct way to implement it. You might
   // want to search for flood fill to get the idea.
+}
+
+void Board::flagCellToggle(int x, int y) {
+  // MOCK Implementation for using the mouse click,
+  // remove when implementing the real function.
+  if (onBound(x, y)) {
+    table[y][x].bomb = !table[y][x].bomb;
+  }
+
+  // TODO(Paula): Toggle flag
 }
