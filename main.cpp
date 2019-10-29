@@ -31,6 +31,7 @@ int main(int argc, char** argv) {
   sf::RenderWindow window(sf::VideoMode(ws.x, ws.y), "Mine game!");
 
   window.setFramerateLimit(120);
+
   while (window.isOpen()) {
     auto cb = board.charBoard();
     auto tb = boardUI.setTextBoard(cb);
@@ -54,10 +55,15 @@ int main(int argc, char** argv) {
       if (event.type == sf::Event::Closed) {
         window.close();
       } else if (event.type == sf::Event::MouseButtonPressed) {
-        if (event.mouseButton.button == sf::Mouse::Left) {
-          board.discoverCell(mCell);
-        } else if (event.mouseButton.button == sf::Mouse::Right) {
-          board.flagToggle(mCell);
+        switch (event.mouseButton.button) {
+          case sf::Mouse::Left:
+            board.discoverCell(mCell);
+            break;
+          case sf::Mouse::Right:
+            board.flagToggle(mCell);
+            break;
+          default:
+            break;
         }
       }
     }
