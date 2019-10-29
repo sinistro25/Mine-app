@@ -15,7 +15,7 @@ class BoardUI {
 
  public:
   BoardUI(int x, int y, float size, float padding = 2.f, float border = 50.f);
-  sf::Vertex* getBoard();
+  sf::Vertex* getTiles();
   sf::Vector2i getMouseCell(sf::Vector2i& pos);
   sf::Text* setTextBoard(vector<vector<char>>& charBoard);
   void updateColor(vector<vector<char>>& board, sf::Vector2i& mousePos);

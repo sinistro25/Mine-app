@@ -75,7 +75,7 @@ void BoardUI::updateColor(vector<vector<char>>& board,
     setColor(sf::Color::Yellow, mouseCell.x, mouseCell.y);
   }
 }
-sf::Vertex* BoardUI::getBoard() { return cells; }
+sf::Vertex* BoardUI::getTiles() { return cells; }
 sf::Vector2i BoardUI::getMouseCell(sf::Vector2i& pos) {
   pos.x -= int(border);
   pos.y -= int(border);

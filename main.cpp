@@ -7,44 +7,46 @@
 #include "board_ui.hpp"
 using namespace std;
 int main(int argc, char** argv) {
-  int num_cols = 30, num_lines = 20, num_bombs = 10;
+  int cols = 30, lines = 20, bombs = 10;
   float cell_size = 60.f, padding = 2.f, border = 50.f;
   srand(time(NULL));
 
   if (argc == 2) {
-    num_lines = num_cols = atoi(argv[1]);
-    num_bombs = num_lines * num_cols / 10 + 1;
+    lines = cols = atoi(argv[1]);
+    bombs = lines * cols / 10 + 1;
   } else if (argc == 3) {
-    num_lines = atoi(argv[1]);
-    num_cols = atoi(argv[2]);
-    num_bombs = num_lines * num_cols / 10 + 1;
+    lines = atoi(argv[1]);
+    cols = atoi(argv[2]);
+    bombs = lines * cols / 10 + 1;
   } else if (argc > 3) {
-    num_lines = atoi(argv[1]);
-    num_cols = atoi(argv[2]);
-    num_bombs = atoi(argv[3]);
+    lines = atoi(argv[1]);
+    cols = atoi(argv[2]);
+    bombs = atoi(argv[3]);
   }
 
-  Board board(num_cols, num_lines, num_bombs);
-  BoardUI boardUI = BoardUI(num_cols, num_lines, cell_size, padding, border);
+  // init game logic and UI
+  Board board(cols, lines, bombs);
+  BoardUI boardUI = BoardUI(cols, lines, cell_size, padding, border);
 
-  sf::RenderWindow window(sf::VideoMode(cell_size * num_cols + 2 * border,
-                                        cell_size * num_lines + 2 * border),
+  sf::RenderWindow window(sf::VideoMode(cell_size * cols + 2 * border,
+                                        cell_size * lines + 2 * border),
                           "Mine game!");
 
   window.setFramerateLimit(120);
   while (window.isOpen()) {
     auto cb = board.charBoard();
-    auto mousePos = sf::Mouse::getPosition(window);
-    sf::Vector2i mouseCell = boardUI.getMouseCell(mousePos);
-    if (board.onBound(mouseCell.x, mouseCell.y)) {
-      boardUI.updateColor(cb, mouseCell);
-    }
-    auto b = boardUI.getBoard();
     auto tb = boardUI.setTextBoard(cb);
-    window.clear();
-    window.draw(b, 4 * num_lines * num_cols, sf::Quads);
 
-    for (int i = 0; i < num_lines * num_cols; ++i) {
+    auto m = sf::Mouse::getPosition(window);
+    sf::Vector2i mCell = boardUI.getMouseCell(m);
+
+    if (board.onBound(mCell.x, mCell.y)) {
+      boardUI.updateColor(cb, mCell);
+    }
+
+    window.clear();
+    window.draw(boardUI.getTiles(), 4 * lines * cols, sf::Quads);
+    for (int i = 0; i < lines * cols; ++i) {
       window.draw(tb[i]);
     }
     window.display();
@@ -55,9 +57,9 @@ int main(int argc, char** argv) {
         window.close();
       } else if (event.type == sf::Event::MouseButtonPressed) {
         if (event.mouseButton.button == sf::Mouse::Left) {
-          board.discoverCell(mouseCell);
+          board.discoverCell(mCell);
         } else if (event.mouseButton.button == sf::Mouse::Right) {
-          board.flagToggle(mouseCell);
+          board.flagToggle(mCell);
         }
       }
     }
