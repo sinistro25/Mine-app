@@ -1,4 +1,4 @@
-#include "Board.h"
+#include "board.hpp"
 #include <algorithm>
 #include <iostream>
 #include <vector>
