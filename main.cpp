@@ -9,27 +9,21 @@ using namespace std;
 int main() {
   int num_cols = 30, num_lines = 18;
   float cell_size = 60.f, padding = 2.f, border = 50.f;
+
   Board board(num_cols, num_lines, 60);
+  BoardUI boardUI = BoardUI(num_cols, num_lines, cell_size, padding, border);
 
   sf::RenderWindow window(sf::VideoMode(cell_size * num_cols + 2 * border,
                                         cell_size * num_lines + 2 * border),
                           "Mine game!");
-  // window.setFramerateLimit(30);
-  BoardUI boardUI = BoardUI(num_cols, num_lines, cell_size, padding, border);
+
+  window.setFramerateLimit(30);
   while (window.isOpen()) {
     auto cb = board.charBoard();
-    auto mouse_pos = sf::Mouse::getPosition(window);
-    auto cell_pos = boardUI.getMouseCell(mouse_pos);
-    if (board.onBound(cell_pos.x, cell_pos.y) &&
-        cb[cell_pos.y][cell_pos.x] != ' ') {
-      boardUI.setColor(sf::Color::Red, cell_pos.x, cell_pos.y);
-    }
-    for (int i = 0; i < num_lines; i++) {
-      for (int j = 0; j < num_cols; j++) {
-        if (cb[i][j] == '*') {
-          boardUI.setColor(sf::Color::Yellow, j, i);
-        }
-      }
+    auto mousePos = sf::Mouse::getPosition(window);
+    sf::Vector2i mouseCell = boardUI.getMouseCell(mousePos);
+    if (board.onBound(mouseCell.x, mouseCell.y)) {
+      boardUI.updateColor(cb, mouseCell);
     }
     auto b = boardUI.getBoard();
     auto tb = boardUI.setTextBoard(cb);
@@ -41,17 +35,15 @@ int main() {
     }
     window.display();
 
-    boardUI.setColor(sf::Color::White, cell_pos.x, cell_pos.y);
-
     sf::Event event;
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) {
         window.close();
       } else if (event.type == sf::Event::MouseButtonPressed) {
         if (event.mouseButton.button == sf::Mouse::Left) {
-          board.discoverCell(cell_pos.x, cell_pos.y);
+          board.discoverCell(mouseCell);
         } else if (event.mouseButton.button == sf::Mouse::Right) {
-          board.flagToggle(cell_pos.x, cell_pos.y);
+          board.flagToggle(mouseCell);
         }
       }
     }

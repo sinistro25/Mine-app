@@ -10,12 +10,14 @@ class BoardUI {
   sf::Vertex* cells;
   sf::Text* numbers;
   sf::Font font;
+  void setColor(sf::Color color, int x, int y);
+  void initColor();
 
  public:
   BoardUI(int x, int y, float size, float padding = 2.f, float border = 50.f);
-  void setColor(sf::Color color, int x, int y);
   sf::Vertex* getBoard();
   sf::Vector2i getMouseCell(sf::Vector2i& pos);
   sf::Text* setTextBoard(vector<vector<char>>& charBoard);
+  void updateColor(vector<vector<char>>& board, sf::Vector2i& mousePos);
 };
 #endif

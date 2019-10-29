@@ -1,5 +1,6 @@
 #ifndef BOARD_H_
 #define BOARD_H_
+#include <SFML/Graphics.hpp>
 #include <vector>
 using namespace std;
 // TODO(paula): Create flag to indicate that the cell
@@ -22,8 +23,8 @@ class Board {
   Board(int x_val = 10, int y_val = 10, int bombs_val = 10);
   vector<vector<char>> charBoard();
   bool onBound(int x, int y);
-  void discoverCell(int x, int y);
-  void flagToggle(int x, int y);
+  void discoverCell(sf::Vector2i& cell);
+  void flagToggle(sf::Vector2i& cell);
   void setNeighbombs();
 };
 #endif

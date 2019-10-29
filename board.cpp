@@ -1,4 +1,5 @@
 #include "board.hpp"
+#include <SFML/Graphics.hpp>
 #include <algorithm>
 #include <iostream>
 #include <vector>
@@ -69,7 +70,9 @@ void Board::setNeighbombs() {
   }
 }
 
-void Board::discoverCell(int x, int y) {
+void Board::discoverCell(sf::Vector2i &cell) {
+  int x = cell.x;
+  int y = cell.y;
   // MOCK Implementation for using the mouse click,
   // remove when implementing the real function.
   if (onBound(x, y)) {
@@ -85,7 +88,9 @@ void Board::discoverCell(int x, int y) {
   // want to search for flood fill to get the idea.
 }
 
-void Board::flagToggle(int x, int y) {
+void Board::flagToggle(sf::Vector2i &cell) {
+  int x = cell.x;
+  int y = cell.y;
   // MOCK Implementation for using the mouse click,
   // remove when implementing the real function.
   if (onBound(x, y)) {

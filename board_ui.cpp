@@ -29,6 +29,7 @@ BoardUI::BoardUI(int x, int y, float size, float padding, float border) {
           sf::Vertex(sf::Vector2f(left_x, bottom_y));
     }
   }
+  initColor();
 }
 void BoardUI::setColor(sf::Color color, int x, int y) {
   if (x < 0 || x >= num_cols || y < 0 || y >= num_lines) {
@@ -38,6 +39,41 @@ void BoardUI::setColor(sf::Color color, int x, int y) {
   cells[4 * (y + num_lines * x) + 1].color = color;
   cells[4 * (y + num_lines * x) + 2].color = color;
   cells[4 * (y + num_lines * x) + 3].color = color;
+}
+
+void BoardUI::initColor() {
+  for (int i = 0; i < num_lines; i++) {
+    for (int j = 0; j < num_cols; j++) {
+      setColor(sf::Color(128, 128, 128), j, i);
+    }
+  }
+}
+void BoardUI::updateColor(vector<vector<char>>& board,
+                          sf::Vector2i& mouseCell) {
+  for (size_t i = 0; i < board.size(); i++) {
+    for (size_t j = 0; j < board[0].size(); j++) {
+      switch (board[i][j]) {
+        case ' ':
+          setColor(sf::Color(128, 128, 128), j, i);
+          break;
+        case 'x':
+          setColor(sf::Color::Red, j, i);
+          break;
+        case 'F':
+          setColor(sf::Color::Green, j, i);
+          break;
+        default:
+          setColor(sf::Color::White, j, i);
+      }
+      if (board[i][j] == 'x') {
+        setColor(sf::Color::Red, j, i);
+      }
+    }
+  }
+  // TODO(Wagner): update 'x' -> ' ' when the hidden cells are ready
+  if (board[mouseCell.y][mouseCell.x] != 'x') {
+    setColor(sf::Color::Yellow, mouseCell.x, mouseCell.y);
+  }
 }
 sf::Vertex* BoardUI::getBoard() { return cells; }
 sf::Vector2i BoardUI::getMouseCell(sf::Vector2i& pos) {
