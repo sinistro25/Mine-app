@@ -28,7 +28,7 @@ vector<vector<char>> Board::charBoard() {
     for (int j = 0; j < x; j++) {
       // TODO(Paula): If cell is ridden don't change the char in b;
       if (table[i][j].bomb) {
-        b[i][j] = '*';
+        b[i][j] = 'x';
       } else {
         b[i][j] = char('0' + table[i][j].neighbombs);
       }

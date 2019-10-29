@@ -7,7 +7,7 @@
 #include "table_ui.hpp"
 using namespace std;
 int main() {
-  int num_cols = 15, num_lines = 15;
+  int num_cols = 30, num_lines = 18;
   float cell_size = 60.f, padding = 2.f, border = 50.f;
   Board t(num_cols, num_lines, 60);
 
