@@ -8,7 +8,7 @@ class BoardUI {
   static const float padding;
   static const float border;
   int cols, lines;
-  sf::Vertex* cells;
+  sf::Vertex* vertices;
   sf::Text* numbers;
   sf::Font font;
   void setColor(sf::Color color, int x, int y);
@@ -16,6 +16,7 @@ class BoardUI {
 
  public:
   BoardUI(int cols, int lines);
+  sf::Vector2i getWindowSize();
   sf::Vertex* getTiles();
   sf::Vector2i getMouseCell(sf::Vector2i& pos);
   sf::Text* setTextBoard(vector<vector<char>>& charBoard);

@@ -13,22 +13,26 @@ const float BoardUI::border = 50.f;
 BoardUI::BoardUI(int cols, int lines) {
   this->cols = cols;
   this->lines = lines;
-  cells = new sf::Vertex[4 * cols * lines];
+
+  vertices = new sf::Vertex[4 * cols * lines];
+  numbers = new sf::Text[cols * lines];
+
   if (!font.loadFromFile("arial.ttf")) {
     cout << "Font Error" << endl;
   }
-  numbers = new sf::Text[cols * lines];
+
   for (int i = 0; i < cols; i++) {
     for (int j = 0; j < lines; j++) {
       float top_y = size * j + padding + border;
       float bottom_y = size * (j + 1) - padding + border;
       float left_x = size * i + padding + border;
       float right_x = size * (i + 1) - padding + border;
-      cells[4 * (j + lines * i)] = sf::Vertex(sf::Vector2f(left_x, top_y));
-      cells[4 * (j + lines * i) + 1] = sf::Vertex(sf::Vector2f(right_x, top_y));
-      cells[4 * (j + lines * i) + 2] =
+      vertices[4 * (j + lines * i)] = sf::Vertex(sf::Vector2f(left_x, top_y));
+      vertices[4 * (j + lines * i) + 1] =
+          sf::Vertex(sf::Vector2f(right_x, top_y));
+      vertices[4 * (j + lines * i) + 2] =
           sf::Vertex(sf::Vector2f(right_x, bottom_y));
-      cells[4 * (j + lines * i) + 3] =
+      vertices[4 * (j + lines * i) + 3] =
           sf::Vertex(sf::Vector2f(left_x, bottom_y));
     }
   }
@@ -38,10 +42,13 @@ void BoardUI::setColor(sf::Color color, int col, int line) {
   if (col < 0 || col >= cols || line < 0 || line >= lines) {
     return;
   }
-  cells[4 * (line + lines * col)].color = color;
-  cells[4 * (line + lines * col) + 1].color = color;
-  cells[4 * (line + lines * col) + 2].color = color;
-  cells[4 * (line + lines * col) + 3].color = color;
+  vertices[4 * (line + lines * col)].color = color;
+  vertices[4 * (line + lines * col) + 1].color = color;
+  vertices[4 * (line + lines * col) + 2].color = color;
+  vertices[4 * (line + lines * col) + 3].color = color;
+}
+sf::Vector2i BoardUI::getWindowSize() {
+  return sf::Vector2i(size * cols + 2 * border, size * lines + 2 * border);
 }
 
 void BoardUI::initColor() {
@@ -78,7 +85,7 @@ void BoardUI::updateColor(vector<vector<char>>& board,
     setColor(sf::Color::Yellow, mouseCell.x, mouseCell.y);
   }
 }
-sf::Vertex* BoardUI::getTiles() { return cells; }
+sf::Vertex* BoardUI::getTiles() { return vertices; }
 sf::Vector2i BoardUI::getMouseCell(sf::Vector2i& pos) {
   pos.x -= int(border);
   pos.y -= int(border);

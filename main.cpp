@@ -25,11 +25,10 @@ int main(int argc, char** argv) {
 
   // init game logic and UI
   Board board(cols, lines, bombs);
-  BoardUI boardUI = BoardUI(cols, lines, cell_size, padding, border);
-
-  sf::RenderWindow window(sf::VideoMode(cell_size * cols + 2 * border,
-                                        cell_size * lines + 2 * border),
-                          "Mine game!");
+  BoardUI boardUI = BoardUI(cols, lines);
+  // init window
+  auto ws = boardUI.getWindowSize();
+  sf::RenderWindow window(sf::VideoMode(ws.x, ws.y), "Mine game!");
 
   window.setFramerateLimit(120);
   while (window.isOpen()) {
