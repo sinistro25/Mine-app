@@ -4,9 +4,10 @@
 #include <vector>
 using namespace std;
 class BoardUI {
-  int num_cols, num_lines;
-  float size;
-  float border;
+  static const float size;
+  static const float padding;
+  static const float border;
+  int cols, lines;
   sf::Vertex* cells;
   sf::Text* numbers;
   sf::Font font;
@@ -14,7 +15,7 @@ class BoardUI {
   void initColor();
 
  public:
-  BoardUI(int x, int y, float size, float padding = 2.f, float border = 50.f);
+  BoardUI(int cols, int lines);
   sf::Vertex* getTiles();
   sf::Vector2i getMouseCell(sf::Vector2i& pos);
   sf::Text* setTextBoard(vector<vector<char>>& charBoard);

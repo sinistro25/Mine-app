@@ -4,46 +4,49 @@
 #include <iostream>
 #include <string>
 using namespace std;
-BoardUI::BoardUI(int x, int y, float size, float padding, float border) {
-  this->size = size;
-  this->border = border;
-  num_cols = x;
-  num_lines = y;
-  cells = new sf::Vertex[4 * x * y];
+
+// Define UI layout
+const float BoardUI::size = 60.f;
+const float BoardUI::padding = 2.f;
+const float BoardUI::border = 50.f;
+
+BoardUI::BoardUI(int cols, int lines) {
+  this->cols = cols;
+  this->lines = lines;
+  cells = new sf::Vertex[4 * cols * lines];
   if (!font.loadFromFile("arial.ttf")) {
     cout << "Font Error" << endl;
   }
-  numbers = new sf::Text[x * y];
-  for (int i = 0; i < num_cols; i++) {
-    for (int j = 0; j < num_lines; j++) {
+  numbers = new sf::Text[cols * lines];
+  for (int i = 0; i < cols; i++) {
+    for (int j = 0; j < lines; j++) {
       float top_y = size * j + padding + border;
       float bottom_y = size * (j + 1) - padding + border;
       float left_x = size * i + padding + border;
       float right_x = size * (i + 1) - padding + border;
-      cells[4 * (j + num_lines * i)] = sf::Vertex(sf::Vector2f(left_x, top_y));
-      cells[4 * (j + num_lines * i) + 1] =
-          sf::Vertex(sf::Vector2f(right_x, top_y));
-      cells[4 * (j + num_lines * i) + 2] =
+      cells[4 * (j + lines * i)] = sf::Vertex(sf::Vector2f(left_x, top_y));
+      cells[4 * (j + lines * i) + 1] = sf::Vertex(sf::Vector2f(right_x, top_y));
+      cells[4 * (j + lines * i) + 2] =
           sf::Vertex(sf::Vector2f(right_x, bottom_y));
-      cells[4 * (j + num_lines * i) + 3] =
+      cells[4 * (j + lines * i) + 3] =
           sf::Vertex(sf::Vector2f(left_x, bottom_y));
     }
   }
   initColor();
 }
-void BoardUI::setColor(sf::Color color, int x, int y) {
-  if (x < 0 || x >= num_cols || y < 0 || y >= num_lines) {
+void BoardUI::setColor(sf::Color color, int col, int line) {
+  if (col < 0 || col >= cols || line < 0 || line >= lines) {
     return;
   }
-  cells[4 * (y + num_lines * x)].color = color;
-  cells[4 * (y + num_lines * x) + 1].color = color;
-  cells[4 * (y + num_lines * x) + 2].color = color;
-  cells[4 * (y + num_lines * x) + 3].color = color;
+  cells[4 * (line + lines * col)].color = color;
+  cells[4 * (line + lines * col) + 1].color = color;
+  cells[4 * (line + lines * col) + 2].color = color;
+  cells[4 * (line + lines * col) + 3].color = color;
 }
 
 void BoardUI::initColor() {
-  for (int i = 0; i < num_lines; i++) {
-    for (int j = 0; j < num_cols; j++) {
+  for (int i = 0; i < lines; i++) {
+    for (int j = 0; j < cols; j++) {
       setColor(sf::Color(128, 128, 128), j, i);
     }
   }
@@ -82,13 +85,13 @@ sf::Vector2i BoardUI::getMouseCell(sf::Vector2i& pos) {
   return sf::Vector2i(floor(float(pos.x) / size), floor(pos.y / size));
 }
 sf::Text* BoardUI::setTextBoard(vector<vector<char>>& charBoard) {
-  for (int i = 0; i < num_cols; i++) {
-    for (int j = 0; j < num_lines; j++) {
+  for (int i = 0; i < cols; i++) {
+    for (int j = 0; j < lines; j++) {
       float top_y = size * j + (3 * size) / 4;
       float left_x = size * i + size + 8;
-      numbers[j + num_lines * i] = sf::Text(charBoard[j][i], font, 50);
-      numbers[j + num_lines * i].setPosition(left_x, top_y);
-      numbers[j + num_lines * i].setFillColor(sf::Color::Black);
+      numbers[j + lines * i] = sf::Text(charBoard[j][i], font, 50);
+      numbers[j + lines * i].setPosition(left_x, top_y);
+      numbers[j + lines * i].setFillColor(sf::Color::Black);
     }
   }
   return numbers;

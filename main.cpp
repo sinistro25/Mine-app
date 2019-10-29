@@ -8,7 +8,6 @@
 using namespace std;
 int main(int argc, char** argv) {
   int cols = 30, lines = 20, bombs = 10;
-  float cell_size = 60.f, padding = 2.f, border = 50.f;
   srand(time(NULL));
 
   if (argc == 2) {
