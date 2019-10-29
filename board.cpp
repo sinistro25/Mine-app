@@ -8,6 +8,7 @@ ostream &operator<<(ostream &os, Cell const &b) {
   char c = (b.bomb) ? '*' : 'o';
   return os << c;
 }
+
 Board::Board(int x_val, int y_val, int bombs_val)
     : x{x_val}, y{y_val}, bombs{bombs_val} {
   table = vector<vector<Cell>>();
@@ -19,7 +20,7 @@ Board::Board(int x_val, int y_val, int bombs_val)
     }
   }
   addBombs(bombs);
-  fillCell();
+  setNeighbombs();
 }
 
 vector<vector<char>> Board::charBoard() {
@@ -51,7 +52,7 @@ void Board::addBombs(int n) {
 bool Board::onBound(int x, int y) {
   return !(x < 0 || x >= this->x || y < 0 || y >= this->y);
 }
-void Board::fillCell() {
+void Board::setNeighbombs() {
   for (int i = 0; i < y; i++) {
     for (int j = 0; j < x; j++) {
       for (int k = i - 1; k <= i + 1; k++) {
@@ -84,7 +85,7 @@ void Board::discoverCell(int x, int y) {
   // want to search for flood fill to get the idea.
 }
 
-void Board::flagCellToggle(int x, int y) {
+void Board::flagToggle(int x, int y) {
   // MOCK Implementation for using the mouse click,
   // remove when implementing the real function.
   if (onBound(x, y)) {

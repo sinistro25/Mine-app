@@ -51,7 +51,7 @@ int main() {
         if (event.mouseButton.button == sf::Mouse::Left) {
           board.discoverCell(cell_pos.x, cell_pos.y);
         } else if (event.mouseButton.button == sf::Mouse::Right) {
-          board.flagCellToggle(cell_pos.x, cell_pos.y);
+          board.flagToggle(cell_pos.x, cell_pos.y);
         }
       }
     }

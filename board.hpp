@@ -23,7 +23,7 @@ class Board {
   vector<vector<char>> charBoard();
   bool onBound(int x, int y);
   void discoverCell(int x, int y);
-  void flagCellToggle(int x, int y);
-  void fillCell();
+  void flagToggle(int x, int y);
+  void setNeighbombs();
 };
 #endif
