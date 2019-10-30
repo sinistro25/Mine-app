@@ -80,8 +80,7 @@ void BoardUI::updateColor(vector<vector<char>>& board,
       }
     }
   }
-  // TODO(Wagner): update 'x' -> ' ' when the hidden cells are ready
-  if (board[mouseCell.y][mouseCell.x] != 'x') {
+  if (board[mouseCell.y][mouseCell.x] == ' ') {
     setColor(sf::Color::Yellow, mouseCell.x, mouseCell.y);
   }
 }
