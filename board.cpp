@@ -5,11 +5,7 @@
 #include <vector>
 using namespace std;
 
-ostream &operator<<(ostream &os, Cell const &b) {
-  char c = (b.bomb) ? '*' : 'o';
-  return os << c;
-}
-
+Cell::Cell() : isHidden(true) {}
 Board::Board(int x_val, int y_val, int bombs_val)
     : x{x_val}, y{y_val}, bombs{bombs_val} {
   table = vector<vector<Cell>>();
@@ -28,8 +24,9 @@ vector<vector<char>> Board::charBoard() {
   vector<vector<char>> b(y, vector<char>(x, ' '));
   for (int i = 0; i < y; i++) {
     for (int j = 0; j < x; j++) {
-      // TODO(Paula): If cell is ridden don't change the char in b;
-      if (table[i][j].bomb) {
+      if (table[i][j].isHidden == true) {
+        b[i][j] = ' ';
+      } else if (table[i][j].bomb) {
         b[i][j] = 'x';
       } else {
         b[i][j] = char('0' + table[i][j].neighbombs);
@@ -73,10 +70,8 @@ void Board::setNeighbombs() {
 void Board::discoverCell(sf::Vector2i &cell) {
   int x = cell.x;
   int y = cell.y;
-  // MOCK Implementation for using the mouse click,
-  // remove when implementing the real function.
   if (onBound(x, y)) {
-    table[y][x].bomb = true;
+    table[y][x].isHidden = false;
   }
   // TODO(Paula): this changes the state of the cell from hidden
   // to explored. Must call bound verification and will trigger

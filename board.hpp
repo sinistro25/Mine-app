@@ -10,6 +10,8 @@ struct Cell {
   int neighbombs;
   bool bomb;
   bool flag;
+  bool isHidden;
+  Cell();
 };
 // TODO(Paula): Define properties to indicate that the game is over, if the
 // player won or lost

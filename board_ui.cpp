@@ -98,7 +98,7 @@ sf::Text* BoardUI::setTextBoard(vector<vector<char>>& charBoard) {
       float left_x = size * i + size + 8;
       numbers[j + lines * i] = sf::Text(charBoard[j][i], font, 50);
       numbers[j + lines * i].setPosition(left_x, top_y);
-      numbers[j + lines * i].setFillColor(sf::Color::Black);
+      numbers[j + lines * i].setColor(sf::Color::Black);
     }
   }
   return numbers;
