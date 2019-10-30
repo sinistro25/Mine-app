@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <chrono>
+#include <ctime>
 #include <iostream>
 #include <thread>
 #include <vector>
@@ -30,10 +31,13 @@ int main(int argc, char** argv) {
   // init window
   auto ws = boardUI.getWindowSize();
   sf::RenderWindow window(sf::VideoMode(ws.x, ws.y), "Mine game!");
-
+  // init timer and set FPS
+  auto t0 = time(0);
   window.setFramerateLimit(120);
 
   while (window.isOpen()) {
+    auto t = time(0) - t0;
+    auto timer = boardUI.getTimerText(t);
     auto cb = board.charBoard();
     auto tb = boardUI.setTextBoard(cb);
 
@@ -45,6 +49,7 @@ int main(int argc, char** argv) {
     }
 
     window.clear();
+    window.draw(timer);
     window.draw(boardUI.getTiles(), 4 * lines * cols, sf::Quads);
     for (int i = 0; i < lines * cols; ++i) {
       window.draw(tb[i]);

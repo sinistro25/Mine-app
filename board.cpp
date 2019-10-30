@@ -27,7 +27,7 @@ vector<vector<char>> Board::charBoard() {
       if (table[i][j].isHidden == true) {
         b[i][j] = ' ';
       } else if (table[i][j].bomb) {
-        b[i][j] = 'x';
+        b[i][j] = 'X';
       } else {
         b[i][j] = char('0' + table[i][j].neighbombs);
       }
