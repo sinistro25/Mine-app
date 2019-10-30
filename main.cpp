@@ -6,10 +6,11 @@
 #include "board.hpp"
 #include "board_ui.hpp"
 using namespace std;
-int main(int argc, char** argv) {
-  int cols = 30, lines = 20, bombs = 10;
-  srand(time(NULL));
 
+int main(int argc, char** argv) {
+  srand(time(NULL));
+  int cols = 30, lines = 20, bombs = 10;
+  // create function to handle user input
   if (argc == 2) {
     lines = cols = atoi(argv[1]);
     bombs = lines * cols / 10 + 1;
