@@ -19,6 +19,7 @@ class Board {
  private:
   int x, y, bombs;
   bool gameOver;
+  bool won_;
   int rBlankCells;
   vector<vector<Cell>> table;
   void addBombs(int n);
@@ -31,5 +32,6 @@ class Board {
   void flagToggle(sf::Vector2i& cell);
   void setNeighbombs();
   bool isGameOver();
+  bool won();
 };
 #endif

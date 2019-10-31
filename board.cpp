@@ -8,6 +8,9 @@ using namespace std;
 Cell::Cell() : isHidden(true) {}
 Board::Board(int x_val, int y_val, int bombs_val)
     : x{x_val}, y{y_val}, bombs{bombs_val} {
+  won_ = false;
+  gameOver = false;
+  rBlankCells = x * y - bombs;
   table = vector<vector<Cell>>();
   for (int i = 0; i < y_val; i++) {
     table.push_back(vector<Cell>());
@@ -17,7 +20,6 @@ Board::Board(int x_val, int y_val, int bombs_val)
     }
   }
   addBombs(bombs);
-  rBlankCells = x * y - bombs;
   setNeighbombs();
 }
 
@@ -81,6 +83,7 @@ void Board::discoverCell(sf::Vector2i &cell) {
       rBlankCells--;
       if (!rBlankCells) {
         gameOver = true;
+        won_ = true;
       }
     }
   }
@@ -101,3 +104,4 @@ void Board::flagToggle(sf::Vector2i &cell) {
 }
 
 bool Board::isGameOver() { return gameOver; }
+bool Board::won() { return won_; }

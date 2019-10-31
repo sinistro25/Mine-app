@@ -10,7 +10,7 @@ using namespace std;
 
 int main(int argc, char** argv) {
   srand(time(NULL));
-  int cols = 2, lines = 2, bombs = 0;
+  int cols = 2, lines = 2, bombs = 3;
   // create function to handle user input
   if (argc == 2) {
     lines = cols = atoi(argv[1]);
@@ -75,6 +75,11 @@ int main(int argc, char** argv) {
         }
       }
     }
+  }
+  if (board.won()) {
+    cout << "WINNER" << endl;
+  } else {
+    cout << "LOSER" << endl;
   }
 
   return 0;
