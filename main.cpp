@@ -34,10 +34,10 @@ int main(int argc, char** argv) {
   // init timer and set FPS
   auto t0 = time(0);
   window.setFramerateLimit(120);
-  auto cell = sf::Vector2i(3, 2);
-  board.flagToggle(cell);
 
-  while (window.isOpen()) {
+  // TODO(wagner): proper clean up of the window when the game is over
+  // TODO(wagber): make the gameOver screen
+  while (!board.isGameOver() && window.isOpen()) {
     auto t = time(0) - t0;
     auto timer = boardUI.getTimerText(t);
     auto cb = board.charBoard();

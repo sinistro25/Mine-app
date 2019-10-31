@@ -74,10 +74,11 @@ void Board::discoverCell(sf::Vector2i &cell) {
   int y = cell.y;
   if (onBound(x, y) && !table[y][x].flag) {
     table[y][x].isHidden = false;
+    if (table[y][x].bomb) {
+      gameOver = true;
+    }
   }
-  // TODO(Paula): this changes the state of the cell from hidden
-  // to explored. Must call bound verification and will trigger
-  // game over if discover a bomb or discover all hidden.
+  // TODO(Paula): Game ends when discover all blank cells.
 
   // TODO(Paula) - HARD leave for last: If you discover a cell with
   // 0 neighbombs you have to open all neighbors cells with also 0
@@ -92,3 +93,5 @@ void Board::flagToggle(sf::Vector2i &cell) {
     table[y][x].flag = !table[y][x].flag;
   }
 }
+
+bool Board::isGameOver() { return gameOver; }

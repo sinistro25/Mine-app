@@ -18,6 +18,7 @@ struct Cell {
 class Board {
  private:
   int x, y, bombs;
+  bool gameOver;
   vector<vector<Cell>> table;
   void addBombs(int n);
 
@@ -28,5 +29,6 @@ class Board {
   void discoverCell(sf::Vector2i& cell);
   void flagToggle(sf::Vector2i& cell);
   void setNeighbombs();
+  bool isGameOver();
 };
 #endif
