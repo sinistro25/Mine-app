@@ -33,6 +33,7 @@ BoardUI::BoardUI(int cols, int lines) {
   timer.setPosition(size * cols / 2. + border, border / 2.);
   timer.setColor(sf::Color::Red);
 
+  
   for (int i = 0; i < cols; i++) {
     for (int j = 0; j < lines; j++) {
       float top_y = size * j + padding + border;

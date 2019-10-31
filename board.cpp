@@ -24,7 +24,9 @@ vector<vector<char>> Board::charBoard() {
   vector<vector<char>> b(y, vector<char>(x, ' '));
   for (int i = 0; i < y; i++) {
     for (int j = 0; j < x; j++) {
-      if (table[i][j].isHidden == true) {
+      if (table[i][j].flag) {
+        b[i][j] = 'F';
+      } else if (table[i][j].isHidden) {
         b[i][j] = ' ';
       } else if (table[i][j].bomb) {
         b[i][j] = 'X';
@@ -70,7 +72,7 @@ void Board::setNeighbombs() {
 void Board::discoverCell(sf::Vector2i &cell) {
   int x = cell.x;
   int y = cell.y;
-  if (onBound(x, y)) {
+  if (onBound(x, y) && !table[y][x].flag) {
     table[y][x].isHidden = false;
   }
   // TODO(Paula): this changes the state of the cell from hidden
@@ -86,11 +88,7 @@ void Board::discoverCell(sf::Vector2i &cell) {
 void Board::flagToggle(sf::Vector2i &cell) {
   int x = cell.x;
   int y = cell.y;
-  // MOCK Implementation for using the mouse click,
-  // remove when implementing the real function.
-  if (onBound(x, y)) {
-    table[y][x].bomb = !table[y][x].bomb;
+  if (onBound(x, y) && table[y][x].isHidden) {
+    table[y][x].flag = !table[y][x].flag;
   }
-
-  // TODO(Paula): Toggle flag
 }
