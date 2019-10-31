@@ -19,6 +19,7 @@ class Board {
  private:
   int x, y, bombs;
   bool gameOver;
+  int rBlankCells;
   vector<vector<Cell>> table;
   void addBombs(int n);
 

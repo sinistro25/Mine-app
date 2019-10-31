@@ -17,6 +17,7 @@ Board::Board(int x_val, int y_val, int bombs_val)
     }
   }
   addBombs(bombs);
+  rBlankCells = x * y - bombs;
   setNeighbombs();
 }
 
@@ -76,6 +77,11 @@ void Board::discoverCell(sf::Vector2i &cell) {
     table[y][x].isHidden = false;
     if (table[y][x].bomb) {
       gameOver = true;
+    } else {
+      rBlankCells--;
+      if (!rBlankCells) {
+        gameOver = true;
+      }
     }
   }
   // TODO(Paula): Game ends when discover all blank cells.
