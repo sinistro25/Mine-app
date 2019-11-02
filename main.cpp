@@ -33,12 +33,13 @@ int main(int argc, char** argv) {
   sf::RenderWindow window(sf::VideoMode(ws.x, ws.y), "Mine game!");
   // init timer and set FPS
   auto t0 = time(0);
+  auto t = t0;
   window.setFramerateLimit(120);
 
   // TODO(wagner): proper clean up of the window when the game is over
   // TODO(wagber): make the gameOver screen
   while (!board.isGameOver() && window.isOpen()) {
-    auto t = time(0) - t0;
+    t = time(0) - t0;
     auto timer = boardUI.getTimerText(t);
     auto cb = board.charBoard();
     auto tb = boardUI.setTextBoard(cb);
@@ -46,9 +47,7 @@ int main(int argc, char** argv) {
     auto m = sf::Mouse::getPosition(window);
     sf::Vector2i mCell = boardUI.getMouseCell(m);
 
-    if (board.onBound(mCell.x, mCell.y)) {
-      boardUI.updateColor(cb, mCell);
-    }
+    boardUI.updateColor(cb, mCell);
 
     window.clear();
     window.draw(timer);
@@ -76,11 +75,27 @@ int main(int argc, char** argv) {
       }
     }
   }
-  if (board.won()) {
-    cout << "WINNER" << endl;
-  } else {
-    cout << "LOSER" << endl;
-  }
+  auto cb = board.charBoard();
+  auto tb = boardUI.setTextBoard(cb);
+  boardUI.updateColor(cb, BoardUI::noMouseCell);
+  auto timer = boardUI.getTimerText(t);
+  auto result = boardUI.getResultText(board.won());
 
+  while (window.isOpen()) {
+    window.clear();
+    window.draw(timer);
+    window.draw(result);
+    window.draw(boardUI.getTiles(), 4 * lines * cols, sf::Quads);
+    for (int i = 0; i < lines * cols; ++i) {
+      window.draw(tb[i]);
+    }
+    window.display();
+    sf::Event event;
+    while (window.pollEvent(event)) {
+      if (event.type == sf::Event::Closed) {
+        window.close();
+      }
+    }
+  }
   return 0;
 }
