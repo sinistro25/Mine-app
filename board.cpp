@@ -75,24 +75,29 @@ void Board::setNeighbombs() {
 void Board::discoverCell(sf::Vector2i &cell) {
   int x = cell.x;
   int y = cell.y;
-  if (onBound(x, y) && !table[y][x].flag) {
+  if (onBound(x, y) && table[y][x].isHidden && !table[y][x].flag) {
     table[y][x].isHidden = false;
     if (table[y][x].bomb) {
       gameOver = true;
-    } else {
-      rBlankCells--;
-      if (!rBlankCells) {
-        gameOver = true;
-        won_ = true;
+      return;
+    }
+
+    rBlankCells--;
+
+    if (!table[y][x].neighbombs) {
+      for (int i = x - 1; i <= x + 1; i++) {
+        for (int j = y - 1; j <= y + 1; j++) {
+          auto cell = sf::Vector2i(i, j);
+          discoverCell(cell);
+        }
       }
     }
-  }
-  // TODO(Paula): Game ends when discover all blank cells.
 
-  // TODO(Paula) - HARD leave for last: If you discover a cell with
-  // 0 neighbombs you have to open all neighbors cells with also 0
-  // neighbombs, there is a direct way to implement it. You might
-  // want to search for flood fill to get the idea.
+    if (!rBlankCells) {
+      gameOver = true;
+      won_ = true;
+    }
+  }
 }
 
 void Board::flagToggle(sf::Vector2i &cell) {
