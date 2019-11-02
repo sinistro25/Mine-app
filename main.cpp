@@ -10,7 +10,7 @@ using namespace std;
 
 int main(int argc, char** argv) {
   srand(time(NULL));
-  int cols = 2, lines = 2, bombs = 3;
+  int cols = 10, lines = 10, bombs = 10;
   // create function to handle user input
   if (argc == 2) {
     lines = cols = atoi(argv[1]);
@@ -24,13 +24,14 @@ int main(int argc, char** argv) {
     cols = atoi(argv[2]);
     bombs = atoi(argv[3]);
   }
-
-  // init game logic and UI
-  Board board(cols, lines, bombs);
-  BoardUI boardUI = BoardUI(cols, lines);
   // init window
+  BoardUI boardUI = BoardUI(cols, lines);
   auto ws = boardUI.getWindowSize();
   sf::RenderWindow window(sf::VideoMode(ws.x, ws.y), "Mine game!");
+start:
+  // init game logic
+  Board board(cols, lines, bombs);
+
   // init timer and set FPS
   auto t0 = time(0);
   auto t = t0;
@@ -72,6 +73,11 @@ int main(int argc, char** argv) {
           default:
             break;
         }
+      } else if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::R) {
+          // reset game
+          goto start;
+        }
       }
     }
   }
@@ -94,6 +100,11 @@ int main(int argc, char** argv) {
     while (window.pollEvent(event)) {
       if (event.type == sf::Event::Closed) {
         window.close();
+      } else if (event.type == sf::Event::KeyPressed) {
+        if (event.key.code == sf::Keyboard::R) {
+          // reset game
+          goto start;
+        }
       }
     }
   }
