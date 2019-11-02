@@ -85,6 +85,9 @@ void BoardUI::updateColor(vector<vector<char>>& board,
         case 'F':
           setColor(sf::Color::Green, j, i);
           break;
+        case 'W':
+          setColor(sf::Color::Magenta, j, i);
+          break;
         default:
           setColor(sf::Color::White, j, i);
       }
@@ -93,11 +96,11 @@ void BoardUI::updateColor(vector<vector<char>>& board,
       }
     }
   }
-  return;
   if (mouseCell.x >= 0 && mouseCell.x < cols && mouseCell.y >= 0 &&
       mouseCell.y < lines && board[mouseCell.y][mouseCell.x] == ' ') {
     setColor(sf::Color::Yellow, mouseCell.x, mouseCell.y);
   }
+  return;
 }
 sf::Vertex* BoardUI::getTiles() { return vertices; }
 sf::Vector2i BoardUI::getMouseCell(sf::Vector2i& pos) {

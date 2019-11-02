@@ -28,7 +28,11 @@ vector<vector<char>> Board::charBoard() {
   for (int i = 0; i < y; i++) {
     for (int j = 0; j < x; j++) {
       if (table[i][j].flag) {
-        b[i][j] = 'F';
+        if (gameOver && !table[i][j].bomb) {
+          b[i][j] = 'W';
+        } else {
+          b[i][j] = 'F';
+        }
       } else if (table[i][j].isHidden) {
         b[i][j] = ' ';
       } else if (table[i][j].bomb) {
@@ -78,6 +82,7 @@ void Board::discoverCell(sf::Vector2i &cell) {
   if (onBound(x, y) && table[y][x].isHidden && !table[y][x].flag) {
     table[y][x].isHidden = false;
     if (table[y][x].bomb) {
+      uncoverAll();
       gameOver = true;
       return;
     }
@@ -94,6 +99,7 @@ void Board::discoverCell(sf::Vector2i &cell) {
     }
 
     if (!rBlankCells) {
+      uncoverAll();
       gameOver = true;
       won_ = true;
     }
@@ -110,3 +116,11 @@ void Board::flagToggle(sf::Vector2i &cell) {
 
 bool Board::isGameOver() { return gameOver; }
 bool Board::won() { return won_; }
+
+void Board::uncoverAll() {
+  for (int i = 0; i < y; i++) {
+    for (int j = 0; j < x; j++) {
+      table[i][j].isHidden = false;
+    }
+  }
+}

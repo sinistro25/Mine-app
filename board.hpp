@@ -23,6 +23,7 @@ class Board {
   int rBlankCells;
   vector<vector<Cell>> table;
   void addBombs(int n);
+  void uncoverAll();
 
  public:
   Board(int x_val = 10, int y_val = 10, int bombs_val = 10);
