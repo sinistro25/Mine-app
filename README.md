@@ -8,7 +8,7 @@ You need to have the SFML library on your include path. The simple way is to
 
 `sudo apt-get install libsfml-dev`
 
-Refer to the (SFML)[https://www.sfml-dev.org/tutorials/2.5/start-linux.php] page for more information. 
+Refer to the [SFML](https://www.sfml-dev.org/tutorials/2.5/start-linux.php) page for more information. 
 
 ## How to run?
 
