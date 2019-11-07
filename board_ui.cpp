@@ -25,7 +25,7 @@ BoardUI::BoardUI(int cols, int lines) {
   vertices = new sf::Vertex[4 * cols * lines];
   numbers = new sf::Text[cols * lines];
 
-  if (!font.loadFromFile("liberation-sans.ttf")) {
+  if (!font.loadFromFile("resources/liberation-sans.ttf")) {
     cout << "Font Error" << endl;
   }
 
