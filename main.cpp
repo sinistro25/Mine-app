@@ -27,7 +27,8 @@ int main(int argc, char** argv) {
   // init window
   BoardUI boardUI = BoardUI(cols, lines);
   auto ws = boardUI.getWindowSize();
-  sf::RenderWindow window(sf::VideoMode(ws.x, ws.y), "Mine game!");
+  sf::RenderWindow window(sf::VideoMode(ws.x, ws.y), "Mine game!",
+                          sf::Style::Titlebar | sf::Style::Close);
 start:
   // init game logic
   Board board(cols, lines, bombs);
