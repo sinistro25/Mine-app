@@ -1,6 +1,7 @@
-#!/bin/bash
-g++ -c -Wall main.cpp
-g++ -c -Wall board_ui.cpp
-g++ -c -Wall board.cpp
-g++ -Wall main.o board_ui.o board.o -o mine-app -lsfml-graphics -lsfml-window -lsfml-system
+#/bin/bash
+g++ -c -Wall main.cpp &&
+g++ -c -Wall board_ui.cpp &&
+g++ -c -Wall board.cpp &&
+g++ -Wall main.o board_ui.o board.o -o mine-app -lsfml-graphics -lsfml-window -lsfml-system &&
+rm *.o &&
 ./mine-app
