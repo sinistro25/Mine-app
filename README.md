@@ -1,6 +1,6 @@
 # Mine app
 
-Mine app is a simple minesweeper clone. It uses the SFML library for the GUI.
+Mine app is a simple minesweeper clone. It uses the SFML library for the GUI. It is a project that I made with my sister to teach her the usage of OOP and mutiple files.
 
 ## Dependencies
 
